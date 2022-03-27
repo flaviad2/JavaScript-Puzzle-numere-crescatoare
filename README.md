@@ -1,4 +1,4 @@
-# Puzzle-numere-cresc-toare
+# Puzzle-numere-crescatoare
 
 :) În Puzzle_inițial și Puzzle_rezolvat, se observă starea inițială și starea finală a jocului. :)
 
