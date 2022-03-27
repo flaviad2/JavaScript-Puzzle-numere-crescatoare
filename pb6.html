@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        td {
+            padding: 20px;
+        }
+    </style>
+</head>
+<script>
+    var n=4;
+    var currentX=n-1, currentY=n-1;
+    var tableID='table'
+
+    function generateBoard(n) {
+        var array=[...Array(n*n-1).keys()].map(i => i+1);
+        array = array.sort(() => Math.random() - 0.5)
+
+        var table = document.getElementById(tableID);
+        var output = ''; var cellID = 0;
+        var numbers=0
+        for (var i = 1; i <= n; i++) {
+            output += '<tr>\n';
+            for (var j = 1; j <= n; j++) {
+                if(numbers === n*n-1) output += '<td id="number_' + cellID + '"></td>';
+                else output += '<td id="number_' + cellID + '">' + array[cellID] + '</td>';
+                cellID++;
+                numbers++;
+            }
+            output += '</tr>\n';
+        }
+        table.innerHTML = output;
+    }
+    function arrowPushed(arrow) {
+        if (arrow.keyCode == '38')  {//arrow up
+            if (currentY - 1 >= 0) {
+                swapValues(currentX, currentY - 1);
+                currentY -= 1;
+            }
+        }
+        else if (arrow.keyCode == '40') {//arrow down
+            if (currentY + 1 < n) {
+                swapValues(currentX, currentY + 1);
+                currentY += 1;
+            }
+        }
+        else if (arrow.keyCode == '37') {//arrow left
+            if (currentX - 1 >= 0) {
+                swapValues(currentX - 1, currentY);
+                currentX -= 1;
+            }
+        }
+        else if (arrow.keyCode == '39') {//arrow right
+            if (currentX + 1 < n) {
+                swapValues(currentX + 1, currentY);
+                currentX += 1;
+            }
+        }
+    }
+    function getNumber(x, y) {
+        var table = document.getElementById(tableID);
+        var numbers = table.getElementsByTagName('td');
+        var i = numbers.length;
+        while(--i >= 0) {
+            if (numbers[i].id === ("number_" + (y*n+x))) {
+                return numbers[i];
+            }
+        }
+    }
+
+    function swapValues(x, y) {
+        var current = getNumber(currentX, currentY);
+        var destination = getNumber(x, y);
+        var temp = current.innerHTML;
+        current.innerHTML = destination.innerHTML;
+        destination.innerHTML = temp;
+    }
+
+    function createGame(){
+        var n = 4;
+        var tableID = "table";
+        generateBoard(n,tableID);
+        document.onkeydown = arrowPushed;
+    }
+
+</script>
+
+<body>
+    <input type = "button" onclick = "createGame()" id = "btn" value="New Game">
+    <table id="table"></table>
+
+</body>
+</html>
